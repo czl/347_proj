@@ -16,8 +16,8 @@ exit();
     "pcannata" => "Phil Cannata"
   );
   if(isset($_SESSION["user"])){
-    echo "session";
-    echo $userlist[$_SESSION["user"]];
+//    echo "session-";
+    echo "session-".$_SESSION["user"]."-".$userlist[$_SESSION["user"]];
   }
   else{
     echo "no session";
