@@ -30,7 +30,7 @@ function pull_user_name(){
   });//end done clause 
 }
 function get_recommended_events(username){
-  var query= "MATCH (n:user{username:'"+username+"'}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (e1)-[:tag]->(t1) OPTIONAL MATCH (e2)-[:tag]->(t2) OPTIONAL MATCH (e3)-[:tag]->(t3) return e1,e2,e3";
+  var query= "MATCH (n:user{username:'"+username+"'}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (e)-[:tag]->(t1) OPTIONAL MATCH (e)-[:tag]->(t2) OPTIONAL MATCH (e)-[:tag]->(t3) return DISTINCT(e)";
 //  console.log("query: " + query);
 //  console.log("stringify");
 //  console.log(JSON.stringify({"statements":[{"statement":query}]}));
@@ -54,7 +54,16 @@ function get_recommended_events(username){
       console.log("recommended events return: ");
       console.log(status);
       console.log("printed recommended events json");
-      console.log(status.results[0].data);
+      var data_result = status.results[0].data;
+      console.log(data_result);
+      for(i=0;i<data_result.length;i++){
+        console.log(data_result[i].row[0].title);
+        console.log(data_result[i].row[0].description);
+        console.log(data_result[i].row[0].time);
+//        console.log(data_result[i].row[0].date_start);
+//        console.log(data_result[i].row[0].date_end);
+
+      }
 //      var rec_events = 
 //      $('#user_name').html("Welcome, "+user_name);
 
