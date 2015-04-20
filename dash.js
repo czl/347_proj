@@ -64,9 +64,7 @@ function get_recommended_events(username){
 //        console.log(data_result[i].row[0].date_end);
 
       }
-//      var rec_events = 
-//      $('#user_name').html("Welcome, "+user_name);
-
+      html_recommended_events(data_result); 
     },
     error: function(status){
       alert("error for recommended events");
@@ -78,6 +76,28 @@ function get_recommended_events(username){
 function pre_load(){
   pull_user_name();
 }pre_load();
+
+function html_recommended_events(data){
+  var html_build = '';
+  for(i=0;i<data.length;i++){
+    html_build += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">';
+    html_build += data[i].row[0].title;
+    html_build += '</h4></div><div class="panel-body">';
+    html_build += data[i].row[0].description;
+    html_build += '</br>Time: ';
+    html_build += data[i].row[0].time;
+    html_build += '</div></div>';
+/*<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">subpanel1 title</h4></div>
+  <div class="panel-body">subpanel1 body</div>
+</div>
+*/
+
+  }
+  console.log(html_build);
+  $('#recommended_events_body').html(html_build);
+}
+
 
 $(document).ready(function(){
   $("#logout_btn").click(function(){
