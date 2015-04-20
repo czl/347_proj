@@ -168,6 +168,16 @@ function html_follow(data){
   }
   console.log(html_build);
   $('#follow_body').html(html_build);
+///////////////start build left panel
+  html_build = '';
+  html_build += '<ul class="list-group">';
+  for(i=0;i<data.length;i++){
+    html_build += '<li class="list-group-item">'+ data[i].row[0].first +
+                  '&nbsp'+data[i].row[0].last+'</li>'; 
+  }
+  console.log(html_build);
+  $('#follow_left_panel').html(html_build);
+ 
 }
 
 
