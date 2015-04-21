@@ -172,7 +172,11 @@ function html_follow(data){
   html_build = '';
   html_build += '<ul class="list-group">';
   for(i=0;i<data.length;i++){
-    html_build += '<li class="list-group-item">'+ data[i].row[0].first +
+/*    html_build += '<li id="'+data[i].row[0].username+'" '+
+                  'class="list-group-item">'+ data[i].row[0].first +
+                  '&nbsp'+data[i].row[0].last+'</li>'; 
+*/
+    html_build += '<li class="list-group-item hover_name">'+ data[i].row[0].first +
                   '&nbsp'+data[i].row[0].last+'</li>'; 
   }
   console.log(html_build);
