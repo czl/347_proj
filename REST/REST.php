@@ -20,6 +20,7 @@ $client = ClientBuilder::create()
 
 //////////////////////////////////////////////////////////////
 $call = $_POST['call'];
+$username = $_POST['username'];
 //$ret_arr = array('ret'=>"end");
 //echo $_POST['a'];
 //$ret_array = array('call'=>$call);
@@ -31,7 +32,9 @@ $query = '';
 if($call == "get_users"){
   $query = 'MATCH (n:user) RETURN n';
 }
-
+else if($call == "get_follows"){
+  $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN m';
+}
 //$query = 'MATCH (n:user) RETURN n';
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';
