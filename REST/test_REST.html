@@ -1,0 +1,117 @@
+<html>
+<head>
+<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script language="javascript" type="text/javascript">
+var data = JSON.stringify({
+			"a": 'hello',
+			"b": 'json'
+		});
+console.log(data);
+	$.ajax({
+		type: 'post',
+		url: "test_REST.php",
+//		accepts: "application/json",
+//		dataType: "text",
+//		contentType: "application/json",
+		data: 'a=aaaa&b=bbbbb',
+		success: function(status){
+			console.log("success: ");
+			console.log(status);
+		},
+		error: function(status){
+			console.log("error: ");
+			console.log(status);
+		}
+	}).done(function(status){
+		alert(status);
+		console.log("status: ");
+		console.log(status);
+	});
+//url: "http://api.openweathermap.org/data/2.5/forecast/daily?lat=35&lon=139&cnt=10&mode=json"
+
+/*
+	$.ajax({
+		type: "POST",
+		url: "index.php",
+		accepts: "application/json",
+		dataType: "json",
+		contentType: "application/json",
+		crossDomain: true,
+		headers:{
+			"X-Stream": "true",
+			"Authorization": "Basic bmVvNGo6Y2xlbWVucw=="
+		},
+		data: JSON.stringify({
+			"format": 'json',
+			"method": '' 
+		}),
+		success: function(status){
+			alert(status);
+			console.log('success: ');
+			console.log(status);
+		},
+		error: function(status){
+			alert(status);
+			console.log('failed: ');
+			console.log(status);
+		},
+		beforeSend: function(jqXHR) {
+                    jqXHR.overrideMimeType('text/xml;charset=iso-8859-1');
+
+                    jqXHR.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    jqXHR.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                    jqXHR.setRequestHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE, PUT, HEAD");
+                }
+	});
+*/
+
+	//cannata
+/*
+	$.ajax({
+		type: "GET",
+		url: "129.152.144.84:5001/rest/native/?query=%22select%20*%20from%20emp%22",
+		Db: "jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal",
+		User: "DV_Scott",
+		Pass: "orcl",
+		Mode: "native_mode",
+		Model: "model",
+		Returndimensions: "False",
+		Returnfor: "APEX_JSON",
+		headers:{
+			"Db": "jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal",
+			"User": "DV_Scott",
+			"Pass": "orcl",
+			"Mode": "native_mode",
+			"Model": "model",
+			"Returndimensions": "False",
+			"Returnfor": "APEX_JSON"
+		},
+		//data: {}JSON.stringify({
+		//	"statements": [{
+		//		"statement": "MATCH (n)-[l]->(m) RETURN n,l,m"
+		//	}]
+		//}),
+		success: function(status){
+			alert(status);
+			console.log('success: ');
+			console.log(status);
+		},
+		error: function(status){
+			alert(status);
+			console.log('failed: ');
+			console.log(status);
+		},
+		beforeSend: function(jqXHR) {
+                    jqXHR.overrideMimeType('text/xml;charset=iso-8859-1');
+
+                    jqXHR.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    jqXHR.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                    jqXHR.setRequestHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE, PUT, HEAD");
+                }
+
+	});*/
+	
+</script>
+</head>
+
+</html>
