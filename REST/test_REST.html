@@ -2,18 +2,18 @@
 <head>
 <script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script language="javascript" type="text/javascript">
-var data = JSON.stringify({
-			"a": 'hello',
-			"b": 'json'
-		});
+var d_json ={'a': 'hello',"b": 'json'}; 
+var data = JSON.stringify(d_json);
+var data_s ='a=aaaa&b=bbbbb'; 
+var REST = 'call=get_call&a=aaaa&b=bbbb';
 console.log(data);
 	$.ajax({
 		type: 'post',
-		url: "test_REST.php",
+		url: "REST.php",
 		accepts: "application/json",
 //		dataType: "text",
 //		contentType: "application/json",
-		data: 'a=aaaa&b=bbbbb',
+		data: REST,
 		success: function(status){
 			console.log("success: ");
 			console.log(status);
@@ -22,10 +22,11 @@ console.log(data);
 			console.log("error: ");
 			console.log(status);
 		}
-	}).done(function(status){
+/*	}).done(function(status){
 		alert(status);
 		console.log("status: ");
 		console.log(status);
+*/
 	});
 //url: "http://api.openweathermap.org/data/2.5/forecast/daily?lat=35&lon=139&cnt=10&mode=json"
 
