@@ -9,7 +9,7 @@ var get_users = 'call=get_users&a=aaaa&b=bbbb';
 var get_follows = 'call=get_follows&username=bbuilder';
 console.log(data);
 	$.ajax({
-		type: 'post',
+		type: 'GET',
 		url: "REST.php",
 		accepts: "application/json",
 //		dataType: "text",

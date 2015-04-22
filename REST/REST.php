@@ -19,8 +19,8 @@ $client = ClientBuilder::create()
 //$root = $client->getRoot();
 
 //////////////////////////////////////////////////////////////
-$call = $_POST['call'];
-$username = $_POST['username'];
+$call = $_GET['call'];
+$username = $_GET['username'];
 //$ret_arr = array('ret'=>"end");
 //echo $_POST['a'];
 //$ret_array = array('call'=>$call);
@@ -39,5 +39,5 @@ else if($call == "get_follows"){
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';
 $response = $client->sendCypherQuery($query);
-print_r($response->getRows());
+print_r(json_encode($response->getRows()[m]));
 
