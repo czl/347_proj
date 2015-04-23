@@ -10,10 +10,10 @@ function pull_user_name(){
 	window.location = "http://staycalm.me";
         return;
       }
-      console.log("status");
-      console.log(status);
+      console.log("pull_user_name success");
+//      console.log(status);
       var user_name = split_ray[2];
-      console.log("user's name: " + user_name);
+//      console.log("user's name: " + user_name);
       $('#user_name').html("Welcome, "+user_name);
     },
     error: function(status){
@@ -41,8 +41,9 @@ function get_follow_events(username){
 //                accepts: "application/json",
                 data: get_follows_events,
                 success: function(status){
-                        console.log("success: ");
-                        console.log(status);
+                        console.log("get_follow_events success: ");
+//                        console.log(status);
+			$('#follow_events_body').html(status);
                 },
                 error: function(status){
                         console.log("error: ");
