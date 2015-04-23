@@ -58,15 +58,21 @@ function get_recommended_events(username){
       console.log("printed recommended events json");
       var data_result = status.results[0].data;
       console.log(data_result);
-      for(i=0;i<data_result.length;i++){
+      if(data_result[0].row[0] == null){
+        console.log("returned a null array");
+        html_recommended_events(null);
+      }
+/*      for(i=0;i<data_result.length;i++){
         console.log(data_result[i].row[0].title);
         console.log(data_result[i].row[0].description);
         console.log(data_result[i].row[0].time);
-//        console.log(data_result[i].row[0].date_start);
-//        console.log(data_result[i].row[0].date_end);
-
+        console.log(data_result[i].row[0].date_start);
+        console.log(data_result[i].row[0].date_end);
+        }
+*/
+      else{
+        html_recommended_events(data_result); 
       }
-      html_recommended_events(data_result); 
     },
     error: function(status){
       alert("error for recommended events");
@@ -126,6 +132,10 @@ function pre_load(){
 }pre_load();
 
 function html_recommended_events(data){
+  if(data == null){
+    $('#recommended_events_body').html("No recommendations at the moment");
+    return;
+  }
   var html_build = '';
   for(i=0;i<data.length;i++){
     html_build += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">';
