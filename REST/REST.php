@@ -35,6 +35,12 @@ if($call == "get_users"){
 else if($call == "get_follows"){
   $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN m';
 }
+else if($call == "get_rec_events"){
+  $query = 'MATCH (n:user{username:"'.$username.'"}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (m)-[:tag]->(t1) OPTIONAL MATCH (m)-[:tag]->(t2) OPTIONAL MATCH (m)-[:tag]->(t3) return DISTINCT(m)';
+}
+else if($call == "get_attend"){
+  $query = 'MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN m';
+}
 //$query = 'MATCH (n:user) RETURN n';
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';

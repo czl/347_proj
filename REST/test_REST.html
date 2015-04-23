@@ -7,6 +7,8 @@ var data = JSON.stringify(d_json);
 var data_s ='a=aaaa&b=bbbbb'; 
 var get_users = 'call=get_users&a=aaaa&b=bbbb';
 var get_follows = 'call=get_follows&username=bbuilder';
+var get_recs = 'call=rec_events&username=bbuilder';
+var get_attend = 'call=get_attend&username=bbuilder';
 console.log(data);
 	$.ajax({
 		type: 'GET',
@@ -14,7 +16,7 @@ console.log(data);
 		accepts: "application/json",
 //		dataType: "text",
 //		contentType: "application/json",
-		data: get_follows,
+		data: get_attend,
 		success: function(status){
 			console.log("success: ");
 			console.log(status);
