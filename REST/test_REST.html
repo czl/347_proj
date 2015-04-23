@@ -10,14 +10,15 @@ var get_follows = 'call=get_follows&username=bbuilder';
 var get_recs = 'call=get_rec_events&username=sroe';
 var get_attend = 'call=get_attend&username=bbuilder';
 var get_follows_events = 'call=get_follows_events&username=bbuilder';
+var get_follows_events_html = 'call=get_follows_events_html&username=bbuilder';
 console.log(data);
 	$.ajax({
 		type: 'GET',
 		url: "REST.php",
-		accepts: "application/json",
+//		accepts: "application/json",
 //		dataType: "text",
 //		contentType: "application/json",
-		data: get_follows_events,
+		data: get_follows_events_html,
 		success: function(status){
 			console.log("success: ");
 			console.log(status);

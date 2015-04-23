@@ -28,6 +28,7 @@ $username = $_GET['username'];
 //echo $_POST['\a'];
 
 $query = '';
+$query_html = '';
 
 if($call == "get_users"){
   $query = 'MATCH (n:user) RETURN n';
@@ -38,6 +39,9 @@ else if($call == "get_follows"){
 else if($call == "get_follows_events"){
   $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)'; 
 }
+else if($call == "get_follows_events_html"){
+  $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)';  
+}
 else if($call == "get_rec_events"){
   $query = 'MATCH (n:user{username:"'.$username.'"}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (m)-[:tag]->(t1) WHERE NOT (n)-[:attend]->(m) OPTIONAL MATCH (m)-[:tag]->(t2) WHERE NOT (n)-[:attend]->(m) OPTIONAL MATCH (m)-[:tag]->(t3) WHERE NOT (n)-[:attend]->(m) return DISTINCT(m)';
 }
@@ -47,6 +51,41 @@ else if($call == "get_attend"){
 //$query = 'MATCH (n:user) RETURN n';
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';
-$response = $client->sendCypherQuery($query);
-print_r(json_encode($response->getRows()[m]));
-
+if($query !== '' && $query_html === ''){
+  $response = $client->sendCypherQuery($query);
+  print_r(json_encode($response->getRows()[m]));
+}
+else if($query_html !== ''){
+  $response = $client->sendCypherQuery($query_html)->getRows()[m];
+  if(count($response) == 0){
+    print_r("The users you are following are currently not planning on attending any events");
+  }
+  else{
+    $html = '';
+    foreach($response as $i){
+//print_r("~~~~~~~");
+//print_r($i);
+}
+    foreach($response as $i){
+//      print_r('response');
+//      print_r ($response);
+//      print_r( "i:~~");
+//      print_r( $i);
+      $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i[title].'</h4></div><div class="panel-body">'.$i[description].'</br>Time: '.$i[time].'</div></div>';
+    }
+    print_r($html);
+//print_r($response); 
+  }
+//  print_r(json_encode($response));
+  return;
+/*  $html_build = '';
+  html_build 
+  html_build += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">';
+    html_build += data[i].row[0].title;
+    html_build += '</h4></div><div class="panel-body">';
+    html_build += data[i].row[0].description;
+    html_build += '</br>Time: ';
+    html_build += data[i].row[0].time;
+    html_build += '</div></div>';
+*/
+}

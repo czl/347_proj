@@ -27,9 +27,28 @@ function pull_user_name(){
       var username = status.split("-")[1];
       get_recommended_events(username);
       get_follow(username);
+      get_follow_events(username);
     }
     $('body').css('display','block');
   });//end done clause 
+}
+function get_follow_events(username){
+  var get_follows_events = 'call=get_follows_events_html&username='+username;
+  console.log("get_follow_events_html");
+        $.ajax({
+                type: 'GET',
+                url: "REST/REST.php",
+//                accepts: "application/json",
+                data: get_follows_events,
+                success: function(status){
+                        console.log("success: ");
+                        console.log(status);
+                },
+                error: function(status){
+                        console.log("error: ");
+                        console.log(status);
+                }
+        });
 }
 function get_recommended_events(username){
   var query= "MATCH (n:user{username:'"+username+"'}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (e)-[:tag]->(t1) OPTIONAL MATCH (e)-[:tag]->(t2) OPTIONAL MATCH (e)-[:tag]->(t3) return DISTINCT(e)";
