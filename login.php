@@ -7,7 +7,19 @@
     "jmartinez" => "jose",
     "nmartinez" => "natalie",
     "jbond" => "james",
-    "pcannata" => "phil"
+    "pcannata" => "phil",
+    "sfields" => "sally",
+    "tellis" => "taylor",
+    "clee" => "clemens",
+    "cmartin" => "chris",
+    "tbedard" => "tim",
+    "hsolo" => "han",
+    "lskywalker" => "luke",
+    "ijones" => "indiana",
+    "sgreen" => "steven",
+    "espeegle" => "erika",
+    "pcarter" => "peggy",
+    "srogers" => "steve"
   ); 
   $user = $_GET["username"];
   $pass = $_GET["pass"];
