@@ -51,55 +51,24 @@ function get_follow_events(username){
                 }
         });
 }
+
 function get_recommended_events(username){
-  var query= "MATCH (n:user{username:'"+username+"'}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (e)-[:tag]->(t1) OPTIONAL MATCH (e)-[:tag]->(t2) OPTIONAL MATCH (e)-[:tag]->(t3) return DISTINCT(e)";
-//  console.log("query: " + query);
-//  console.log("stringify");
-//  console.log(JSON.stringify({"statements":[{"statement":query}]}));
-  $.ajax({//ajax to pull recommended events
-    type: "POST",
-    url: "http://104.131.68.36:7474/db/data/transaction",
-    accepts: "application/json",
-    dataType: "json",
-    contentType: "application/json",
-    crossDomain: true,
-    "X-Stream": "true",
-    headers:{
-      "Authorization": "Basic bmVvNGo6Y2xlbWVucw=="
-    },  
-    data: JSON.stringify({
-      "statements": [{
-        "statement": query
-      }] 
-    }), 
-    success: function(status){
-      console.log("recommended events return: ");
-      console.log(status);
-      console.log("printed recommended events json");
-      var data_result = status.results[0].data;
-      console.log(data_result);
-      if(data_result[0].row[0] == null){
-        console.log("returned a null array");
-        html_recommended_events(null);
-      }
-/*      for(i=0;i<data_result.length;i++){
-        console.log(data_result[i].row[0].title);
-        console.log(data_result[i].row[0].description);
-        console.log(data_result[i].row[0].time);
-        console.log(data_result[i].row[0].date_start);
-        console.log(data_result[i].row[0].date_end);
-        }
-*/
-      else{
-        html_recommended_events(data_result); 
-      }
-    },
-    error: function(status){
-      alert("error for recommended events");
-      console.log("error: ");
-      console.log(status);
-    }
-  });
+  var get_recommended_events = 'call=get_recommended_events&username='+username;
+  console.log("get_recommended_events");
+        $.ajax({
+                type: 'GET',
+                url: "REST/REST.php",
+                data: get_recommended_events,
+                success: function(status){
+                        console.log("get_recommended_events success: ");
+                        console.log(status);
+			$('#recommended_events_body').html(status);
+                },
+                error: function(status){
+                        console.log("error: ");
+                        console.log(status);
+                }
+        });
 }
 
 function get_follows(username){
@@ -129,30 +98,6 @@ function pre_load(){
   pull_user_name();
 }pre_load();
 
-function html_recommended_events(data){
-  if(data == null){
-    $('#recommended_events_body').html("No recommendations at the moment");
-    return;
-  }
-  var html_build = '';
-  for(i=0;i<data.length;i++){
-    html_build += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">';
-    html_build += data[i].row[0].title;
-    html_build += '</h4></div><div class="panel-body">';
-    html_build += data[i].row[0].description;
-    html_build += '</br>Time: ';
-    html_build += data[i].row[0].time;
-    html_build += '</div></div>';
-/*<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">subpanel1 title</h4></div>
-  <div class="panel-body">subpanel1 body</div>
-</div>
-*/
-
-  }
-  console.log(html_build);
-  $('#recommended_events_body').html(html_build);
-}
 
 $(document).ready(function(){
   $("#logout_btn").click(function(){

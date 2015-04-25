@@ -7,7 +7,7 @@ var data = JSON.stringify(d_json);
 var data_s ='a=aaaa&b=bbbbb'; 
 var get_users = 'call=get_users&a=aaaa&b=bbbb';
 var get_follows = 'call=get_follows&username=bbuilder';
-var get_recs = 'call=get_rec_events&username=sroe';
+var get_recs = 'call=get_recommended_events&username=jbond';
 var get_attend = 'call=get_attend&username=bbuilder';
 var get_follows_events = 'call=get_follows_events&username=bbuilder';
 var get_follows_events_html = 'call=get_follows_events_html&username=bbuilder';
@@ -18,13 +18,13 @@ console.log(data);
 //		accepts: "application/json",
 //		dataType: "text",
 //		contentType: "application/json",
-		data: get_follows,
+		data: get_recs,
 		success: function(status){
 			console.log("success: ");
 			console.log(status);
 			var temp_ray = status.split('~~~~~');
 			$('body').html(temp_ray[0]);
-			$('body').html(temp_ray[1]);
+//			$('body').html(temp_ray[1]);
 		},
 		error: function(status){
 			console.log("error: ");
