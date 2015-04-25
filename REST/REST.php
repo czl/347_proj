@@ -40,7 +40,8 @@ else if($call == "get_follows_html"){
   $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN m';
 }
 else if($call == "get_follows_events"){
-  $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)'; 
+  $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) RETURN DISTINCT(m)';//removed clause that kept events that you are going to and that your following users are going to from showing up 
+//  $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)'; 
 }
 else if($call == "get_follows_events_html"){
   $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)'; 
@@ -53,6 +54,9 @@ else if($call == "get_recommended_events_html"){
 }
 else if($call == "get_attend"){
   $query = 'MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN m';
+}
+else if($call == "get_attend_html"){
+  $query_html ='MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN m';
 }
 //$query = 'MATCH (n:user) RETURN n';
 
@@ -95,17 +99,15 @@ else if($query_html !== ''){
       }
       print_r($html);
     }
+    else if($call == "get_attend_html"){
+      $html = '';
+      $html = $html.'<ul class="list-group">';
+      foreach($response as $i){
+        $html = $html.'<li id="'.$i[eid].'" class="list-group-item hover_name">'.$i[title].'</br>--'.$i[time].'hr</li>';
+      }
+      $html = $html.'</ul>';
+      print_r($html);
+    } 
   }
-//  print_r(json_encode($response));
   return;
-/*  $html_build = '';
-  html_build 
-  html_build += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">';
-    html_build += data[i].row[0].title;
-    html_build += '</h4></div><div class="panel-body">';
-    html_build += data[i].row[0].description;
-    html_build += '</br>Time: ';
-    html_build += data[i].row[0].time;
-    html_build += '</div></div>';
-*/
 }

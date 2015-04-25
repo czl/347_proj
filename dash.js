@@ -28,9 +28,29 @@ function pull_user_name(){
       get_recommended_events(username);
       get_follows(username);
       get_follow_events(username);
+      get_attend_events(username);
     }
     $('body').css('display','block');
   });//end done clause 
+}
+function get_attend_events(username){
+  var get_attend_events = 'call=get_attend_html&username='+username;
+  console.log("get_attend_events_html");
+        $.ajax({
+                type: 'GET',
+                url: "REST/REST.php",
+//                accepts: "application/json",
+                data: get_attend_events,
+                success: function(status){
+                        console.log("get_attend_events success: ");
+                        console.log(status);
+			$('#events_right_panel').html(status);
+                },
+                error: function(status){
+                        console.log("error: ");
+                        console.log(status);
+                }
+        });
 }
 function get_follow_events(username){
   var get_follows_events = 'call=get_follows_events_html&username='+username;
@@ -62,7 +82,7 @@ function get_recommended_events(username){
                 success: function(status){
                         console.log("get_recommended_events success: ");
                         console.log(status);
-			$('#recommended_events_body').html(status);
+			$('#events_right_panel').html(status);
                 },
                 error: function(status){
                         console.log("error: ");
