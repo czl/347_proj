@@ -82,7 +82,7 @@ function get_recommended_events(username){
                 success: function(status){
                         console.log("get_recommended_events success: ");
                         console.log(status);
-			$('#events_right_panel').html(status);
+			$('#recommended_events_body').html(status);
                 },
                 error: function(status){
                         console.log("error: ");
@@ -136,5 +136,9 @@ $(document).ready(function(){
 	console.log(status);
       }	
     });//end ajax
-  });
+  });//end of logout function
+ 
+//  $(".hover_name.popover_title").css("display","none");
+//  $('[data-toggle="popover"]').popover();
+  $(".hover_name").popover();//{trigger: "hover"});
 });

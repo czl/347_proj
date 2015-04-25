@@ -21,11 +21,7 @@ $client = ClientBuilder::create()
 //////////////////////////////////////////////////////////////
 $call = $_GET['call'];
 $username = $_GET['username'];
-//$ret_arr = array('ret'=>"end");
-//echo $_POST['a'];
-//$ret_array = array('call'=>$call);
-//echo json_encode($ret_array);
-//echo $_POST['\a'];
+
 
 $query = '';
 $query_html = '';
@@ -66,7 +62,7 @@ if($query !== '' && $query_html === ''){
   print_r(json_encode($response->getRows()[m]));
 }
 else if($query_html !== ''){
-  $response = $client->sendCypherQuery($query_html)->getRows()[m];
+  $response = $client->sendCypherQuery($query_html)->getRows()["m"];
   if(count($response) == 0){
     print_r("The users you are following are currently not planning on attending any events");
   }
@@ -74,20 +70,20 @@ else if($query_html !== ''){
     if($call == 'get_follows_events_html'){
       $html = '';
       foreach($response as $i){
-        $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i[title].'</h4></div><div class="panel-body">'.$i[description].'</br>Time: '.$i[time].'</div></div>';
+        $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i["title"].'</h4></div><div class="panel-body">'.$i["description"].'</br>Time: '.$i["time"].'</div></div>';
       }
       print_r($html);
     }
     else if($call == 'get_follows_html'){
       $html = '';
       foreach($response as $i){
-        $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i[first].'&nbsp'.$i[last].'</h4></div><div class="panel-body">Likes:<ul class="list-group"><li class="list-group-item">'.$i[like1].'</li><li class="list-group-item">'.$i[like2].'</li><li class="list-group-item">'.$i[like3].'</li></ul></div></div>';
+        $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i["first"].'&nbsp'.$i["last"].'</h4></div><div class="panel-body">Likes:<ul class="list-group"><li class="list-group-item">'.$i["like1"].'</li><li class="list-group-item">'.$i["like2"].'</li><li class="list-group-item">'.$i["like3"].'</li></ul></div></div>';
       }
       $html = $html.'~~~~~';
-//start of side panel
+//start of side panel of user following
       $html = $html.'<ul class="list-group">';
       foreach($response as $i){
-        $html = $html.'<li id="'.$i[username].'" class="list-group-item hover_name">'.$i[first].'&nbsp'.$i[last].'</li>';
+        $html = $html.'<li id="'.$i["username"].'" class="list-group-item hover_name" href="#" style="cursor:pointer">'.$i["first"].'&nbsp'.$i["last"].'</li>';
       }
       $html = $html.'</ul>'; //close for side panel
       print_r($html);
@@ -103,7 +99,7 @@ else if($query_html !== ''){
       $html = '';
       $html = $html.'<ul class="list-group">';
       foreach($response as $i){
-        $html = $html.'<li id="'.$i[eid].'" class="list-group-item hover_name">'.$i[title].'</br>--'.$i[time].'hr</li>';
+        $html = $html.'<li id="'.$i["eid"].'" class="list-group-item hover_name" href="#" style="cursor:pointer" rel="popover" data-trigger="hover" data-content="'.$i["description"].'">'.$i["title"].'</br>--'.$i["time"].'hr</li>';
       }
       $html = $html.'</ul>';
       print_r($html);
