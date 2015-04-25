@@ -26,7 +26,7 @@ function pull_user_name(){
 //      console.log("if condition met");
       var username = status.split("-")[1];
       get_recommended_events(username);
-      get_follow(username);
+      get_follows(username);
       get_follow_events(username);
     }
     $('body').css('display','block');
@@ -102,18 +102,21 @@ function get_recommended_events(username){
   });
 }
 
-function get_follow(username){
-  var get_follow = 'call=get_follow_html&username='+username;
+function get_follows(username){
+  var get_follows = 'call=get_follows&username='+username;
   console.log("get_follow__html");
         $.ajax({
                 type: 'GET',
                 url: "REST/REST.php",
 //                accepts: "application/json",
-                data: get_follow,
+                data: get_follows,
                 success: function(status){
                         console.log("get_follow success: ");
 //                        console.log(status);
-			$('#follow_events_body').html(status);
+			var temp_ray = status.split('~~~~~');
+			$('#follow_body').html(temp_ray[0]);
+			$('#follow_left_panel').html(temp_ray[1]);
+		 	 
                 },
                 error: function(status){
                         console.log("error: ");
@@ -211,6 +214,7 @@ function html_follow(data){
     html_build += '<li class="list-group-item">'+ data[i].row[0].like1 +'</li>';
     html_build += '<li class="list-group-item">'+ data[i].row[0].like2 +'</li>';
     html_build += '<li class="list-group-item">'+ data[i].row[0].like3 +'</li>';
+    html_build += '</ul>';
     html_build += '</div></div>';
 /*<div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">subpanel1 title</h4></div>

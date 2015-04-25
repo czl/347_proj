@@ -34,13 +34,13 @@ if($call == "get_users"){
   $query = 'MATCH (n:user) RETURN n';
 }
 else if($call == "get_follows"){
-  $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN m';
+  $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN m';
 }
 else if($call == "get_follows_events"){
   $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)'; 
 }
 else if($call == "get_follows_events_html"){
-  $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)';  
+  $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) WHERE NOT (n)-[:attend]->(m) RETURN DISTINCT(m)'; 
 }
 else if($call == "get_rec_events"){
   $query = 'MATCH (n:user{username:"'.$username.'"}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (m)-[:tag]->(t1) WHERE NOT (n)-[:attend]->(m) OPTIONAL MATCH (m)-[:tag]->(t2) WHERE NOT (n)-[:attend]->(m) OPTIONAL MATCH (m)-[:tag]->(t3) WHERE NOT (n)-[:attend]->(m) return DISTINCT(m)';
@@ -61,20 +61,28 @@ else if($query_html !== ''){
     print_r("The users you are following are currently not planning on attending any events");
   }
   else{
-    $html = '';
-    foreach($response as $i){
-//print_r("~~~~~~~");
-//print_r($i);
-}
-    foreach($response as $i){
-//      print_r('response');
-//      print_r ($response);
-//      print_r( "i:~~");
-//      print_r( $i);
-      $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i[title].'</h4></div><div class="panel-body">'.$i[description].'</br>Time: '.$i[time].'</div></div>';
+    if($call == 'get_follows_events_html'){
+      $html = '';
+      foreach($response as $i){
+        $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i[title].'</h4></div><div class="panel-body">'.$i[description].'</br>Time: '.$i[time].'</div></div>';
+      }
+      print_r($html);
     }
-    print_r($html);
-//print_r($response); 
+    else if($call == 'get_follows'){
+      $ret_ray;
+      $html = '';
+      foreach($response as $i){
+        $html = $html.'<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">'.$i[first].'&nbsp'.$i[last].'</h4></div><div class="panel-body">Likes:<ul class="list-group"><li class="list-group-item">'.$i[like1].'</li><li class="list-group-item">'.$i[like2].'</li><li class="list-group-item">'.$i[like3].'</li></ul></div></div>';
+      }
+      $html = $html.'~~~~~';
+//start of side panel
+      $html = $html.'<ul class="list-group">';
+      foreach($response as $i){
+        $html = $html.'<li id="'.$i[username].'" class="list-group-item hover_name">'.$i[first].'&nbsp'.$i[last].'</li>';
+      }
+      $html = $html.'</ul>'; //close for side panel
+       print_r($html);
+    }
   }
 //  print_r(json_encode($response));
   return;
