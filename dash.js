@@ -103,6 +103,29 @@ function get_recommended_events(username){
 }
 
 function get_follow(username){
+  var get_follow = 'call=get_follow_html&username='+username;
+  console.log("get_follow__html");
+        $.ajax({
+                type: 'GET',
+                url: "REST/REST.php",
+//                accepts: "application/json",
+                data: get_follow,
+                success: function(status){
+                        console.log("get_follow success: ");
+//                        console.log(status);
+			$('#follow_events_body').html(status);
+                },
+                error: function(status){
+                        console.log("error: ");
+                        console.log(status);
+                }
+        });
+  
+}
+/**
+no longer to be used, this has been replaced by html creation on server side
+*/
+function get_follow_dicontinued(username){
   var query= "MATCH (n:user{username:'"+username+"'})-[:follow]-(m:user)return DISTINCT(m)";
   console.log("query: " + query);
 //  console.log("stringify");
