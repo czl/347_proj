@@ -53,8 +53,8 @@ function get_follow_events(username){
 }
 
 function get_recommended_events(username){
-  var get_recommended_events = 'call=get_recommended_events&username='+username;
-  console.log("get_recommended_events");
+  var get_recommended_events = 'call=get_recommended_events_html&username='+username;
+  console.log("get_recommended_events_html");
         $.ajax({
                 type: 'GET',
                 url: "REST/REST.php",
@@ -72,7 +72,7 @@ function get_recommended_events(username){
 }
 
 function get_follows(username){
-  var get_follows = 'call=get_follows&username='+username;
+  var get_follows = 'call=get_follows_html&username='+username;
   console.log("get_follow__html");
         $.ajax({
                 type: 'GET',
