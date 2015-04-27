@@ -88,7 +88,7 @@ else if ($call == "put_unfollow"){
   $query = 'MATCH (n:user{username:"'.$this_username.'"})-[l:follow]-> (m:user{username:"'.$other_username.'"}) DELETE l return m';
 }
 else if($call == "put_attend"){
-  $query = 'MATCH (n:user{username:"'.$this_username.'"}), (m:event{eid:"'.$eid.'"}) CREATE (n)-[:attend{attend:"1"}]->(m) return m';
+  $query = 'MATCH (n:user{username:"'.$this_username.'"}), (m:event{eid:"'.$eid.'"}) CREATE UNIQUE(n)-[:attend{attend:"1"}]->(m) return m';
 }
 else if ($call == "put_unattend"){
   $query = 'MATCH (n:user{username:"'.$this_username.'"})-[l:attend]->(m:event{eid:"'.$eid.'"}) DELETE l return m';
