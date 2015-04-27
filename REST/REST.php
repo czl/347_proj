@@ -2,8 +2,10 @@
 //ini_set('display_errors',1);
 require_once '../vendor/autoload.php';
 
-use Neoxygen\NeoClient\ClientBuilder;
+//echo "in REST.php";
+//exit();
 
+use Neoxygen\NeoClient\ClientBuilder;
 
 //$conn_url = parse_url('http://104.131.68.36:7474/db/data/');
 $user = 'neo4j';
@@ -19,10 +21,35 @@ $client = ClientBuilder::create()
 //$root = $client->getRoot();
 
 //////////////////////////////////////////////////////////////
+
+//---- CREATING $_PUT
+if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+  parse_str(file_get_contents("php://input"),$_PUT);
+  foreach($_PUT as $key => $value){
+    unset($_PUT[$key]);
+    $_PUT[str_replace('amp;', '', $key)] = $value;
+  }
+  $_REQUEST = array_merge($_REQUEST, $_PUT);
+}
+
+///end of creating $_PUT
+$call = '';
 $call = $_GET['call'];
+if($call == ''){
+  $call = $_PUT['call'];
+}
 $username = $_GET['username'];
-
-
+$this_username = '';
+$other_username = '';
+$eid = '';
+if($call == 'put_follow' || $call=='put_unfollow'){
+  $this_username = $_PUT['this_username'];
+  $other_username = $_PUT['other_username'];
+}
+else if($call == 'put_attend' || $call=='put_unattend'){
+  $this_username = $_PUT['this_username'];
+  $eid = $_PUT['eid'];
+}
 $query = '';
 $query_html = '';
 
@@ -54,6 +81,19 @@ else if($call == "get_attend"){
 else if($call == "get_attend_html"){
   $query_html ='MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN m';
 }
+else if($call == "put_follow"){
+  $query = 'MATCH (n:user{username:"'.$this_username.'"}), (m:user{username:"'.$other_username.'"}) CREATE UNIQUE (n)-[:follow{follow:"1"}]->(m) return m';
+}
+else if ($call == "put_unfollow"){
+  $query = 'MATCH (n:user{username:"'.$this_username.'"})-[l:follow]-> (m:user{username:"'.$other_username.'"}) DELETE l return m';
+}
+else if($call == "put_attend"){
+  $query = 'MATCH (n:user{username:"'.$this_username.'"}), (m:event{eid:"'.$eid.'"}) CREATE (n)-[:attend{attend:"1"}]->(m) return m';
+}
+else if ($call == "put_unattend"){
+  $query = 'MATCH (n:user{username:"'.$this_username.'"})-[l:attend]->(m:event{eid:"'.$eid.'"}) DELETE l return m';
+}
+
 //$query = 'MATCH (n:user) RETURN n';
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';
