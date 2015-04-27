@@ -12,6 +12,9 @@ var get_attend = 'call=get_attend&username=bbuilder';
 var get_attend_html = 'call=get_attend_html&username=bbuilder';
 var get_follows_events = 'call=get_follows_events&username=bbuilder';
 var get_follows_events_html = 'call=get_follows_events_html&username=bbuilder';
+
+var put_follow = 'call=put_follow&this_username=this_username&other_username=other_username';
+var put_unfolow = 'call=put_unfollow&this_username=this_username&other_username=other_username';
 console.log(data);
 	$.ajax({
 		type: 'GET',
@@ -19,7 +22,7 @@ console.log(data);
 //		accepts: "application/json",
 //		dataType: "text",
 //		contentType: "application/json",
-		data: get_attend_html,
+		data: put_follow,
 		success: function(status){
 			console.log("success: ");
 			console.log(status);
