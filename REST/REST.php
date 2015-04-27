@@ -93,7 +93,9 @@ else if($call == "put_attend"){
 else if ($call == "put_unattend"){
   $query = 'MATCH (n:user{username:"'.$this_username.'"})-[l:attend]->(m:event{eid:"'.$eid.'"}) DELETE l return m';
 }
-
+else if($call == "get_bio"){
+  $query = 'MATCH (n:user{username:"'.$username.'"}) RETURN n.userbio as m';
+}
 //$query = 'MATCH (n:user) RETURN n';
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';
