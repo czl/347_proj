@@ -129,7 +129,7 @@ else if($call == "get_event"){
   $r = $client->sendCypherQuery($query)->getRows()["m"][0];
   $ret_ray['label'] = array('eid','title','description','time','address','startdate','enddate');
   $ret_ray['value'] = array($r['eid'], $r['title'], $r['description'], $r['time'], $r['address'], $r['startdate'], $r['enddate']);
-  print_r($ret_ray);
+  print_r(json_encode($ret_ray));
   return;
 }
 //$query = 'MATCH (n:user) RETURN n';
