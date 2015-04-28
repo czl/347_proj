@@ -8,4 +8,4 @@ We also started a small side project creating a front-end in javascript with boo
 
 Link to APEX app:  https://apex.oracle.com/pls/apex/f?p=77063:1
 
-Link to non-APEX app:  staycalm.me
+Link to non-APEX app:  https://staycalm.me
