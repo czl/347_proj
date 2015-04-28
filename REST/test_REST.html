@@ -16,6 +16,8 @@ var get_follows_events_html = 'call=get_follows_events_html&username=bbuilder';
 var get_bio = 'call=get_bio&username=bbuilder';
 var get_bio_text = 'call=get_bio_text&username=bbuilder';
 
+var get_event = 'call=get_event&eid=1';
+
 var put_follow = 'call=put_follow&this_username=bbuilder&other_username=sroe';
 var put_unfollow = 'call=put_unfollow&this_username=bbuilder&other_username=sroe';
 var put_attend = 'call=put_attend&this_username=bbuilder&eid=3';
@@ -24,12 +26,13 @@ var put_unattend = 'call=put_unattend&this_username=bbuilder&eid=3';
 var put_event = 'call=put_event&title=newEvent&description=newDescript&time=1500&address=2500%20University%20blvd&startdate=2015-05-20&enddate=2015-05-20';
 console.log(data);
 	$.ajax({
-		type: 'PUT',
+//		type: 'PUT',
+		type: 'GET',
 		url: "REST.php",
 //		accepts: "application/json",
 //		dataType: "text",
 //		contentType: "application/json",
-		data: put_event,
+		data: get_event,
 		success: function(status){
 			console.log("success: ");
 			console.log(status);

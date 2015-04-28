@@ -1,5 +1,5 @@
 <?php
-//ini_set('display_errors',1);
+ini_set('display_errors',1);
 require_once '../vendor/autoload.php';
 
 //echo "in REST.php";
@@ -38,7 +38,9 @@ $call = $_GET['call'];
 if($call == ''){
   $call = $_PUT['call'];
 }
-$username = $_GET['username'];
+if($call != 'get_event'){
+  $username = $_GET['username'];
+}
 $this_username = '';
 $other_username = '';
 $eid = '';
@@ -58,6 +60,9 @@ else if($call == 'put_event'){
   $event['address'] = $_PUT['address'];
   $event['startdate'] = $_PUT['startdate'];
   $event['enddate'] = $_PUT['enddate']; 
+}
+else if ($call == 'get_event'){
+  $eid = $_GET['eid'];
 }
 $query = '';
 $query_html = '';
@@ -118,7 +123,15 @@ else if($call == "get_bio_text"){
 else if($call == "put_event"){
   $query = 'MATCH (n:event) WITH toInt(max(n.eid))+1 as new_eid CREATE (m:event{eid:str(new_eid),title:"'.$event["title"].'",description:"'.$event["description"].'",time:"'.$event["time"].'",address:"'.$event["address"].'",startdate:"'.$event["startdate"].'",enddate:"'.$event["enddate"].'"}) RETURN m';
 }
-
+else if($call == "get_event"){
+  $query = 'MATCH (m:event{eid:"'.$eid.'"}) RETURN m';
+  //special b/c return with 2 columns only, labels, and values
+  $r = $client->sendCypherQuery($query)->getRows()["m"][0];
+  $ret_ray['label'] = array('eid','title','description','time','address','startdate','enddate');
+  $ret_ray['value'] = array($r['eid'], $r['title'], $r['description'], $r['time'], $r['address'], $r['startdate'], $r['enddate']);
+  print_r($ret_ray);
+  return;
+}
 //$query = 'MATCH (n:user) RETURN n';
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';
