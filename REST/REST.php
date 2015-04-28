@@ -42,6 +42,7 @@ $username = $_GET['username'];
 $this_username = '';
 $other_username = '';
 $eid = '';
+$event = '';
 if($call == 'put_follow' || $call=='put_unfollow'){
   $this_username = $_PUT['this_username'];
   $other_username = $_PUT['other_username'];
@@ -50,17 +51,25 @@ else if($call == 'put_attend' || $call=='put_unattend'){
   $this_username = $_PUT['this_username'];
   $eid = $_PUT['eid'];
 }
+else if($call == 'put_event'){
+  $event['title'] = $_PUT['title'];
+  $event['description'] = $_PUT['description'];
+  $event['time'] = $_PUT['time'];
+  $event['address'] = $_PUT['address'];
+  $event['startdate'] = $_PUT['startdate'];
+  $event['enddate'] = $_PUT['enddate']; 
+}
 $query = '';
 $query_html = '';
 
 if($call == "get_users"){
-  $query = 'MATCH (n:user) RETURN n';
+  $query = 'MATCH (n:user) RETURN DISTINCT(n)';
 }
 else if($call == "get_follows"){
-  $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN m';
+  $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN DISTINCT(m)';
 }
 else if($call == "get_follows_html"){
-  $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN m';
+  $query_html = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(m:user) RETURN (m)';
 }
 else if($call == "get_follows_events"){
   $query = 'MATCH (n:user{username: "'.$username.'"})-[:follow]->(u:user)-[:attend]->(m:event) RETURN DISTINCT(m)';//removed clause that kept events that you are going to and that your following users are going to from showing up 
@@ -76,10 +85,10 @@ else if($call == "get_recommended_events_html"){
   $query_html = 'MATCH (n:user{username:"'.$username.'"}),(t1:tag{tag:n.like1}), (t2:tag{tag:n.like2}), (t3:tag{tag:n.like3}) OPTIONAL MATCH (m)-[:tag]->(t1) WHERE NOT (n)-[:attend]->(m) OPTIONAL MATCH (m)-[:tag]->(t2) WHERE NOT (n)-[:attend]->(m) OPTIONAL MATCH (m)-[:tag]->(t3) WHERE NOT (n)-[:attend]->(m) return DISTINCT(m)';
 }
 else if($call == "get_attend"){
-  $query = 'MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN m';
+  $query = 'MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN DISTINCT(m)';
 }
 else if($call == "get_attend_html"){
-  $query_html ='MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN m';
+  $query_html ='MATCH (:user{username:"'.$username.'"})-[:attend]->(m:event) RETURN DISTINCT(m)';
 }
 else if($call == "put_follow"){
   $query = 'MATCH (n:user{username:"'.$this_username.'"}), (m:user{username:"'.$other_username.'"}) CREATE UNIQUE (n)-[:follow{follow:"1"}]->(m) return m';
@@ -94,8 +103,22 @@ else if ($call == "put_unattend"){
   $query = 'MATCH (n:user{username:"'.$this_username.'"})-[l:attend]->(m:event{eid:"'.$eid.'"}) DELETE l return m';
 }
 else if($call == "get_bio"){
-  $query = 'MATCH (n:user{username:"'.$username.'"}) RETURN n.userbio as m';
+  $query = 'MATCH (m:user{username:"'.$username.'"}) RETURN m';
+//  $query = 'MATCH (n:user{username:"'.$username.'"}) RETURN n.userbio as m';
+//  $response = $client->sendCypherQuery($query);
+//  print_r($response->getRows()[m][0]);//returns a text version
+//  return;
 }
+else if($call == "get_bio_text"){
+  $query = 'MATCH (n:user{username:"'.$username.'"}) RETURN n.userbio as m';
+  $response = $client->sendCypherQuery($query);
+  print_r($response->getRows()[m][0]);//returns a text version
+  return;
+}
+else if($call == "put_event"){
+  $query = 'MATCH (n:event) WITH toInt(max(n.eid))+1 as new_eid CREATE (m:event{eid:str(new_eid),title:"'.$event["title"].'",description:"'.$event["description"].'",time:"'.$event["time"].'",address:"'.$event["address"].'",startdate:"'.$event["startdate"].'",enddate:"'.$event["enddate"].'"}) RETURN m';
+}
+
 //$query = 'MATCH (n:user) RETURN n';
 
 //$query = 'MATCH (n:user{username:"bbuilder"})-[:follow]->(m:user) RETURN n,m';
