@@ -13,7 +13,19 @@ exit();
     "jmartinez" => "Jose Martinez",
     "nmartinez" => "Natalie Martinez",
     "jbond" => "James Bond",
-    "pcannata" => "Phil Cannata"
+    "pcannata" => "Phil Cannata",
+    "sfields" => "Sally Fields",
+    "tellis" => "Taylor Ellis",
+    "clee" => "Clemens Lee",
+    "cmartin" => "Chris Martin",
+    "tbedard" => "Tim Bedard",
+    "hsolo" => "Han Solo",
+    "lskywalker" => "Luke Skywalker",
+    "ijones" => "Indiana Jones",
+    "sgreen" => "Steven Green",
+    "espeegle" => "Erika Speegle",
+    "pcarter" => "Peggy Carter",
+    "srogers" => "Steve Rogers"
   );
   if(isset($_SESSION["user"])){
 //    echo "session-";
